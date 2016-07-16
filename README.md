@@ -1,6 +1,6 @@
 # MetroFtpClient
 
-Based on the [PrismMahAppsSample](https://github.com/steve600/PrismMahAppsSample) and the [FtpWebRequest](https://msdn.microsoft.com/en-us/library/system.net.ftpwebrequest(v=vs.100).aspx)/[FtpWebRespone](https://msdn.microsoft.com/en-us/library/system.net.ftpwebresponse(v=vs.100).aspx) I started to develop a FTP-Client. Again some open source components are used:
+FTP-Client based on the [PrismMahAppsSample](https://github.com/steve600/PrismMahAppsSample) and the standard .NET classes [FtpWebRequest](https://msdn.microsoft.com/en-us/library/system.net.ftpwebrequest(v=vs.100).aspx)/[FtpWebRespone](https://msdn.microsoft.com/en-us/library/system.net.ftpwebresponse(v=vs.100).aspx). Again some open source components are used:
 
 * [Dragablz](https://github.com/ButchersBoy/Dragablz) - Dragable and tearable tab control for WPF
 * [MahApps.Metro](https://github.com/MahApps/MahApps.Metro) - "Metro" or "Modern UI" for WPF applications
