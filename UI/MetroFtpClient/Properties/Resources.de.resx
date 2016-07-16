@@ -175,4 +175,7 @@
   <data name="AddNewConnection" xml:space="preserve">
     <value>Neue Verbindung anlegen</value>
   </data>
+  <data name="ConnectionOverviewTitle" xml:space="preserve">
+    <value>Metro FTP-Client Verbindungsüberischt</value>
+  </data>
 </root>

@@ -169,6 +169,15 @@ namespace MetroFtpClient.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die @ConnectionOverviewTitle ähnelt.
+        /// </summary>
+        internal static string ConnectionOverviewTitle {
+            get {
+                return ResourceManager.GetString("ConnectionOverviewTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die @DeleteConnection ähnelt.
         /// </summary>
         internal static string DeleteConnection {

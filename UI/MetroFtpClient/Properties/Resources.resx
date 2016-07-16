@@ -192,4 +192,7 @@
   <data name="AddNewConnection" xml:space="preserve">
     <value>@AddNewConnection</value>
   </data>
+  <data name="ConnectionOverviewTitle" xml:space="preserve">
+    <value>@ConnectionOverviewTitle</value>
+  </data>
 </root>

@@ -245,7 +245,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\MetroFtpClient.Common\MetroFtpClient.Core.csproj">
+    <ProjectReference Include="..\..\Common\MetroFtpClient.Core\MetroFtpClient.Core.csproj">
       <Project>{851a4243-5426-4df2-b491-585f82b26414}</Project>
       <Name>MetroFtpClient.Core</Name>
     </ProjectReference>

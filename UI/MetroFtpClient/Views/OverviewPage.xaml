@@ -16,19 +16,31 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel>
-        <Border Background="{DynamicResource AccentColorBrush}">
-            <TextBlock Style="{StaticResource TextBlockAccentColorSizeL}"
-                       TextAlignment="Center"
-                       HorizontalAlignment="Center"
-                       Foreground="{DynamicResource WhiteColorBrush}"
-                       Text="{lex:Loc WelcomeMessage}" />
-        </Border>
-        <Border Background="{DynamicResource AccentColorBrush4}">
-            <TextBlock Text="{lex:Loc IntroductionMessage}"
-                       Style="{StaticResource TextBlockAccentColorSizeM}"
-                       TextAlignment="Center"
-                       HorizontalAlignment="Center" />
-        </Border>
+
+        <!-- Header -->
+        <StackPanel Margin="0,10,0,0" Grid.Row="0">
+            <StackPanel Margin="5,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="32"
+                                   Height="32"
+                                   Fill="{DynamicResource AccentColorBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
+                                             Visual="{StaticResource appbar_home_empty}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <Label Margin="4 0 0 0"
+                               Style="{DynamicResource LabelHeader1}"
+                               VerticalAlignment="Center"
+                               Content="{lex:Loc ConnectionOverviewTitle}" />
+                </StackPanel>
+            </StackPanel>
+
+            <Rectangle Margin="2,3,2,3"
+                           HorizontalAlignment="Stretch"
+                           Fill="{DynamicResource AccentColorBrush}"
+                           Height="4" />
+        </StackPanel>        
 
         <ItemsControl ItemsSource="{Binding Path=Connections, UpdateSourceTrigger=PropertyChanged}"
                       ItemTemplate="{StaticResource ConnectionCardDataTemplate}">
