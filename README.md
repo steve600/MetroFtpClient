@@ -12,8 +12,6 @@ FTP-Client based on the [PrismMahAppsSample](https://github.com/steve600/PrismMa
 
 Here are some screenshots:
 
-![Introduction Page](http://csharp-blog.de/wp-content/uploads/2016/07/MetroFtpClient_01.png)
-
 Within the overview page it is possible to create new connections. If a connection is opened the following screen appears:
 
 ![Connection view](http://csharp-blog.de/wp-content/uploads/2016/07/MetroFtpClient_02.png)
