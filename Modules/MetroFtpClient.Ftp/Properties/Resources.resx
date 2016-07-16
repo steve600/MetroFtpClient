@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="FtpConnectionsFlyoutTitle" xml:space="preserve">
+    <value>@FtpConnectionsFlyoutTitle</value>
+  </data>
+  <data name="DelecteConnetionButtonText" xml:space="preserve">
+    <value>@DelecteConnetionButtonText</value>
+  </data>
+  <data name="AddConnectionButtonText" xml:space="preserve">
+    <value>@AddConnectionButtonText</value>
+  </data>
+  <data name="ConnectionAddedSuccessfullStatusBarMessage" xml:space="preserve">
+    <value>@ConnectionAddedSuccessfullStatusBarMessage</value>
+  </data>
+  <data name="ConnectionAddedFailedStatusBarMessage" xml:space="preserve">
+    <value>@ConnectionAddedFailedStatusBarMessage</value>
+  </data>
+  <data name="ConnectionDeletedSuccessfullStatusBarMessage" xml:space="preserve">
+    <value>@ConnectionDeletedSuccessfullStatusBarMessage</value>
+  </data>
+  <data name="ConnectionDeletedFailedStatusBarMessage" xml:space="preserve">
+    <value>@ConnectionDeletedFailedStatusBarMessage</value>
+  </data>
+  <data name="ConnectionType" xml:space="preserve">
+    <value>@ConnectionType</value>
+  </data>
+  <data name="ConnectionName" xml:space="preserve">
+    <value>@ConnectionName</value>
+  </data>
+  <data name="ConnectionHost" xml:space="preserve">
+    <value>@ConnectionHost</value>
+  </data>
+  <data name="ConnectionPort" xml:space="preserve">
+    <value>@ConnectionPort</value>
+  </data>
+  <data name="ConnectionUsername" xml:space="preserve">
+    <value>@ConnectionUsername</value>
+  </data>
+  <data name="ConnectionPassword" xml:space="preserve">
+    <value>@ConnectionPassword</value>
+  </data>
+  <data name="ConnectionTimeout" xml:space="preserve">
+    <value>@ConnectionTimeout</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>@Filename</value>
+  </data>
+  <data name="Filesize" xml:space="preserve">
+    <value>@Filesize</value>
+  </data>
+  <data name="Filetype" xml:space="preserve">
+    <value>@Filetype</value>
+  </data>
+  <data name="LastModified" xml:space="preserve">
+    <value>@LastModified</value>
+  </data>
+  <data name="FilePermissions" xml:space="preserve">
+    <value>@FilePermissions</value>
+  </data>
+  <data name="FileOwner" xml:space="preserve">
+    <value>@FileOwner</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>@Download</value>
+  </data>
+  <data name="ServerPath" xml:space="preserve">
+    <value>@ServerPath</value>
+  </data>
+  <data name="AddFilesToQueue" xml:space="preserve">
+    <value>@AddFilesToQueue</value>
+  </data>
+  <data name="CreateDirectory" xml:space="preserve">
+    <value>@CreateDirectory</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>@Refresh</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>@Delete</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>@Rename</value>
+  </data>
+  <data name="CopyUrlsToClipboard" xml:space="preserve">
+    <value>@CopyUrlsToClipboard</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>@Permissions</value>
+  </data>
+  <data name="ConnectionEstablishmentSuccessful" xml:space="preserve">
+    <value>@ConnectionEstablishmentSuccessful</value>
+  </data>
+  <data name="ConnectionEstablishmentFailed" xml:space="preserve">
+    <value>@ConnectionEstablishmentFailed</value>
+  </data>
+  <data name="StartDownload" xml:space="preserve">
+    <value>@StartDownload</value>
+  </data>
+  <data name="StopDownload" xml:space="preserve">
+    <value>@StopDownload</value>
+  </data>
+  <data name="DownloadDirection" xml:space="preserve">
+    <value>@DownloadDirection</value>
+  </data>
+  <data name="QueueEntryStatus" xml:space="preserve">
+    <value>@QueueEntryStatus</value>
+  </data>
+  <data name="QueueEntryLocalPath" xml:space="preserve">
+    <value>@QueueEntryLocalPath</value>
+  </data>
+  <data name="QueueEntryRemotePath" xml:space="preserve">
+    <value>@QueueEntryRemotePath</value>
+  </data>
+  <data name="QueueEntryDownloadProgress" xml:space="preserve">
+    <value>@QueueEntryDownloadProgress</value>
+  </data>
+  <data name="StartQueueEntry" xml:space="preserve">
+    <value>@StartQueueEntry</value>
+  </data>
+  <data name="StopQueueEntry" xml:space="preserve">
+    <value>@StopQueueEntry</value>
+  </data>
+  <data name="DeleteQueueEntry" xml:space="preserve">
+    <value>@DeleteQueueEntry</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>@Cancel</value>
+  </data>
+  <data name="UpdateConnectionButtonText" xml:space="preserve">
+    <value>@UpdateConnectionButtonText</value>
+  </data>
+  <data name="QueueEntryDownloadSpeed" xml:space="preserve">
+    <value>@QueueEntryDownloadSpeed</value>
+  </data>
+  <data name="DownloadFolder" xml:space="preserve">
+    <value>@DownloadFolder</value>
+  </data>
+  <data name="DownloadQueue" xml:space="preserve">
+    <value>@DownloadQueue</value>
+  </data>
+  <data name="DownloadQueueFinished" xml:space="preserve">
+    <value>@DownloadQueueFinished</value>
+  </data>
+  <data name="OpenTargetFolderInExplorer" xml:space="preserve">
+    <value>@OpenTargetFolderInExplorer</value>
+  </data>
+</root>

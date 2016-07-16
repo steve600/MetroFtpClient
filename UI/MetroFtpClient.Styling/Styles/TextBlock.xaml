@@ -1,0 +1,79 @@
+﻿<!--
+ Global resource dictionary for TextBlock-Styling
+
+ Author: Steffen Steinbrecher
+ Date: 12.07.2015
+
+ History:
+
+ 1.0: First release, working (Steffen Steinbrecher).
+-->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="TextBlockHeader1" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}" />
+    </Style>
+
+    <Style x:Key="TextBlockHeader2" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}" />
+    </Style>
+
+    <Style x:Key="TextBlockHeader3" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}" />
+    </Style>
+
+    <Style x:Key="TextBlockHeader1Black" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
+    <Style x:Key="TextBlockHeader2Black" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
+    <Style x:Key="TextBlockHeader3Black" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Foreground" Value="Black" />
+    </Style>
+
+    <Style x:Key="TextBlockCardHeader1White" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Foreground" Value="{DynamicResource WhiteBrush}" />
+    </Style>
+
+    <Style x:Key="TextBlockAccentColorSizeS" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
+        <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}" />
+        <Setter Property="TextWrapping" Value="WrapWithOverflow" />
+    </Style>
+
+    <Style x:Key="TextBlockAccentColorSizeM" TargetType="TextBlock" BasedOn="{StaticResource TextBlockAccentColorSizeS}">
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="TextBlockAccentColorSizeL" TargetType="TextBlock" BasedOn="{StaticResource TextBlockAccentColorSizeS}">
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
+</ResourceDictionary>

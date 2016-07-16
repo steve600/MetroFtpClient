@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MetroFtpClient.Styling">
+    <ResourceDictionary.MergedDictionaries>
+
+        <!-- Templates -->
+        <ResourceDictionary Source="/MetroFtpClient;component/Styling/Templates/MaterialDesignCard.xaml" />
+
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

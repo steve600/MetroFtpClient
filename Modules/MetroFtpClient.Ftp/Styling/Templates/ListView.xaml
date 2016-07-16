@@ -1,0 +1,78 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MetroFtpClient.Ftp.Styling.Templates"
+                    xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                    xmlns:lex="http://wpflocalizeextension.codeplex.com">
+
+    <DataTemplate x:Key="ConnectionListViewEntry">
+        <Grid Margin="3" HorizontalAlignment="Left">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="3" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="3" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="3" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Orientation="Horizontal">
+
+                <!-- Icon -->
+                <Rectangle Width="20"
+                           Height="20"
+                           Fill="{Binding ElementName=txtConnectionName, Path=Foreground}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill"
+                                     Visual="{StaticResource appbar_connect}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+                <!-- Connection-Name -->
+                <TextBlock x:Name="txtConnectionName"
+                           Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
+                           Margin="5,0,0,0"
+                           Style="{StaticResource TextBlockHeader3Black}" />
+            </StackPanel>
+
+            <!-- Type -->
+            <TextBlock Grid.Row="4"
+                       Grid.Column="0"
+                       FontWeight="Bold"
+                       Text="Type" />
+            <TextBlock Grid.Row="4"
+                       Grid.Column="2"
+                       Text="{Binding Path=ConnectionType, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!-- Host -->
+            <TextBlock Grid.Row="6"
+                       Grid.Column="0"
+                       FontWeight="Bold"
+                       Text="Host" />
+            <TextBlock Grid.Row="6"
+                       Grid.Column="2"
+                       Text="{Binding Path=Host, UpdateSourceTrigger=PropertyChanged}" />
+
+            <!-- Port -->
+            <TextBlock Grid.Row="8"
+                       Grid.Column="0"
+                       FontWeight="Bold"
+                       Text="Port" />
+            <TextBlock Grid.Row="8"
+                       Grid.Column="2"
+                       Text="{Binding Path=Port, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MetroFtpClient.Ftp.Styling.Templates"
+                    xmlns:ftpClient="clr-namespace:MetroFtpClient.Ftp.FtpClient"
+                    xmlns:userControls="clr-namespace:MetroFtpClient.Ftp.UserControls">
+
+    <HierarchicalDataTemplate x:Key="FtpFilesystemTreeViewDataTemplate"
+                              DataType="{x:Type ftpClient:FtpFile}" 
+                              ItemsSource="{Binding Folders, UpdateSourceTrigger=PropertyChanged}">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Image Source="{StaticResource folder_16x16}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
+
+            <userControls:EditableTextBlock Margin="5,0,0,0"
+                                            Text="{Binding Path=Name}"
+                                            VerticalAlignment="Center" />
+            <!--<TextBlock Margin="5,0,0,0"
+                       Text="{Binding Path=Name}"
+                       VerticalAlignment="Center" />-->
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+</ResourceDictionary>

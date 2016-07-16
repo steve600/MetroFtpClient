@@ -1,0 +1,36 @@
+﻿<StackPanel x:Class="MetroFtpClient.Views.LeftTitlebarWindowCommands"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:local="clr-namespace:MetroFtpClient.Views"
+            xmlns:inf="clr-namespace:MetroFtpClient.Infrastructure;assembly=MetroFtpClient.Infrastructure"
+            xmlns:prism="http://prismlibrary.com/"
+            prism:ViewModelLocator.AutoWireViewModel="True"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            mc:Ignorable="d"
+            d:DesignHeight="30" d:DesignWidth="300">
+    <Button Command="{x:Static inf:ApplicationCommands.ShowOnGitHubCommand}"
+            ToolTip="MetroFtpClient on GitHub">
+        <Rectangle Width="22"
+                   Height="22"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Uniform"
+                             Visual="{StaticResource appbar_github}" />
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
+    <Button Command="{x:Static inf:ApplicationCommands.ShowApplicationInfoCommand}"
+            ToolTip="Info">
+        <Rectangle Width="20"
+                   Height="20"
+                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Uniform"
+                             Visual="{StaticResource appbar_information}" />
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Button>
+</StackPanel>

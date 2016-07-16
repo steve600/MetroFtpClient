@@ -1,0 +1,207 @@
+﻿<UserControl x:Class="MetroFtpClient.Ftp.Views.FtpClient"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MetroFtpClient.Ftp.Views"
+             xmlns:ftpClient="clr-namespace:MetroFtpClient.Ftp.FtpClient"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:metroControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:WindowsAPICodePackPresentation="clr-namespace:Microsoft.WindowsAPICodePack.Controls.WindowsPresentationFoundation;assembly=Microsoft.WindowsAPICodePack.Shell"
+             xmlns:WindowsAPICodePackShell="clr-namespace:Microsoft.WindowsAPICodePack.Shell;assembly=Microsoft.WindowsAPICodePack.Shell"
+             xmlns:oxyplot="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:triggerActions="clr-namespace:MetroFtpClient.Infrastructure.TriggerActions;assembly=MetroFtpClient.Infrastructure"
+             xmlns:userControls="clr-namespace:MetroFtpClient.Ftp.UserControls"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="de"
+             lex:ResxLocalizationProvider.DefaultAssembly="MetroFtpClient.Ftp"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Left-Side (Local-Files) -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            
+            <!-- File-Explorer -->
+            <WindowsAPICodePackPresentation:ExplorerBrowser x:Name="localFileExplorer"
+                                                            Grid.Row="0"                                                          
+                                                            NavigationPane="Show"
+                                                            SingleSelection="True" />
+
+            <!-- Text-Block with Download-Folder -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Text="{lex:Loc DownloadFolder}" />
+                <TextBox Grid.Column="2"
+                         Text="{Binding Path=SelectedDownloadDirectory, UpdateSourceTrigger=PropertyChanged}"
+                         IsReadOnly="True"
+                         VerticalAlignment="Center"                         
+                         HorizontalAlignment="Stretch" />
+
+            </Grid>
+            
+            
+            <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" />
+            
+            <!-- Tabcontrol with queue -->
+            <TabControl Grid.Row="3">
+                <TabItem Header="{lex:Loc DownloadQueue}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <!--<RowDefinition Height="5" />-->
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        
+                        <ListView Grid.Row="0" 
+                                  ItemsSource="{Binding Path=QueuePending, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding Path=SelectedQueueEntry, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                  ContextMenu="{StaticResource FtpQueueContextMenu}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="{lex:Loc DownloadDirection}" Width="30">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Rectangle Style="{StaticResource RectangleTransferDirectionStyle}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="{lex:Loc QueueEntryStatus}" Width="60">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Rectangle Style="{StaticResource RectangleQueueEntryStatusStyle}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="{lex:Loc QueueEntryLocalPath}" Width="150" DisplayMemberBinding="{Binding LocalFile}" />
+                                    <GridViewColumn Header="{lex:Loc QueueEntryRemotePath}" Width="150" DisplayMemberBinding="{Binding RemoteFile}" />
+                                    <GridViewColumn Header="{lex:Loc QueueEntryDownloadSpeed}" Width="100" DisplayMemberBinding="{Binding DownloadSpeedFormatted}" />
+                                    <GridViewColumn Header="{lex:Loc QueueEntryDownloadProgress}" Width="95">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>                                                    
+                                                    <metroControls:MetroProgressBar Value="{Binding PercentCompleted}"
+                                                                                    VerticalAlignment="Center"                                                                                                                                                                      Minimum="0"
+                                                                                    Maximum="1"
+                                                                                    Height="22"
+                                                                                    Foreground="{DynamicResource AccentColorBrush}" />
+                                                    <TextBlock Text="{Binding PercentCompleted, StringFormat=P2}"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                        <StackPanel Grid.Row="1" 
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,5,0,0">
+                            <Button Style="{DynamicResource MetroCircleButtonStyle}"                            
+                                    Command="{Binding ProcessQueueCommand}"
+                                    ToolTip="{lex:Loc StartDownload}"
+                                    HorizontalAlignment="Right"
+                                    Width="40"
+                                    Height="40">
+                                <Rectangle Fill="{StaticResource AccentColorBrush}"
+                                           Width="15"
+                                           Height="15">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{DynamicResource appbar_control_play}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                            <Button Style="{DynamicResource MetroCircleButtonStyle}"                            
+                                    ToolTip="{lex:Loc StopDownload}"
+                                    Command="{Binding StopQueueCommand}"
+                                    HorizontalAlignment="Right"
+                                    Width="40"
+                                    Height="40">
+                                <Rectangle Fill="{StaticResource AccentColorBrush}"
+                                           Width="15"
+                                           Height="15">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Visual="{DynamicResource appbar_control_stop}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Button>
+                        </StackPanel>
+
+                    </Grid>
+                </TabItem>             
+            </TabControl>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+
+        <!-- Left-Side (Local-Files) -->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <userControls:FtpFilesystemControl x:Name="ftpFileSystemControl"
+                                               Grid.Row="0"
+                                               FtpFilesystem="{Binding Path=FtpFilesystem, UpdateSourceTrigger=PropertyChanged}"
+                                               SelectedFtpFilesystemFolder="{Binding Path=SelectedFtpFilesystemFolder, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                               AddFtpFileToQueueCommand="{Binding Path=AddFtpFileToQueueCommand}" 
+                                               DeleteFtpFileCommand="{Binding Path=DeleteFtpFileCommand}"/>
+
+            <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
+
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="120" />
+                </Grid.RowDefinitions>
+
+                <RichTextBox Grid.Row="0"
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Stretch"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <triggerActions:RichTextBoxScrollToBottomAction />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Text="{Binding Path=FtpLog, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+
+                <!-- Chart -->
+                <oxyplot:PlotView Grid.Row="2" Model="{Binding Path=SelectedQueueEntry.NetworkSpeedPlot, UpdateSourceTrigger=PropertyChanged}" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

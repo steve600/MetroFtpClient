@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MetroFtpClient.Ftp.Styling.Styles">
+
+    <Style x:Key="FtpFilesystemTreeViewItemContainerStyle" 
+           TargetType="{x:Type TreeViewItem}" 
+           BasedOn="{StaticResource MetroTreeViewItem}">
+        <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <Setter Property="IsSelected" Value="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+    </Style>
+
+</ResourceDictionary>

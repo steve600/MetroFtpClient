@@ -1,0 +1,158 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MetroFtpClient.Styling.Templates"
+                    xmlns:inf="clr-namespace:MetroFtpClient.Infrastructure;assembly=MetroFtpClient.Infrastructure"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:lex="http://wpflocalizeextension.codeplex.com">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="ConnectionCardDataTemplate">
+        <materialDesign:Card Margin="5"
+                             Padding="5"
+                             Width="180">
+            <StackPanel>
+
+                <!-- Header -->
+                <StackPanel Orientation="Horizontal">
+
+                    <Rectangle Width="32" Height="32"
+                               Fill="{DynamicResource AccentColorBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill"
+                                         Visual="{DynamicResource appbar_network}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+
+                    <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{DynamicResource MaterialDesignTitleTextBlock}" 
+                               Foreground="{DynamicResource AccentColorBrush}"
+                               Margin="5,0,0,0"/>
+
+                </StackPanel>
+
+                <!-- Main -->
+                <Grid Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="3" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Connection-Type -->
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Style="{DynamicResource LabelDescription1}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Content="Type" />
+
+                    <TextBlock Grid.Row="0"
+                               Grid.Column="2"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="{Binding Path=ConnectionType, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <!-- Host -->
+                    <Label Grid.Row="2"
+                           Grid.Column="0"
+                           Style="{DynamicResource LabelDescription1}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Content="Host" />
+
+                    <TextBlock Grid.Row="2"
+                               Grid.Column="2"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="{Binding Path=Host, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <!-- Port -->
+                    <Label Grid.Row="4"
+                           Grid.Column="0"
+                           Style="{DynamicResource LabelDescription1}"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Content="Port" />
+
+                    <TextBlock Grid.Row="4"
+                               Grid.Column="2"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="{Binding Path=Port, UpdateSourceTrigger=PropertyChanged}" />
+
+                </Grid>
+
+                <!-- Footer -->
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <Button Style="{DynamicResource MetroCircleButtonStyle}"
+                            Command="{x:Static inf:ApplicationCommands.UpdateConnectionCommand}"
+                            CommandParameter="{Binding}"
+                            ToolTip="{lex:Loc Key=MetroFtpClient:Resources:EditConnection}"
+                            HorizontalAlignment="Right"
+                            Width="50"
+                            Height="50">
+                        <Rectangle Fill="{DynamicResource AccentColorBrush}"
+                                   Width="16"
+                                   Height="18">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{DynamicResource appbar_edit}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                    <Button Style="{DynamicResource MetroCircleButtonStyle}"
+                            Command="{x:Static inf:ApplicationCommands.DeleteConnectionCommand}"
+                            CommandParameter="{Binding}"
+                            ToolTip="{lex:Loc Key=MetroFtpClient:Resources:DeleteConnection}"
+                            HorizontalAlignment="Right"
+                            Width="50"
+                            Height="50">
+                        <Rectangle Fill="{DynamicResource AccentColorBrush}"
+                                   Width="16"
+                                   Height="18">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{DynamicResource appbar_delete}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                    <Button Style="{DynamicResource MetroCircleButtonStyle}"
+                            Command="{x:Static inf:ApplicationCommands.OpenConnectionCommand}"
+                            CommandParameter="{Binding}"
+                            ToolTip="{lex:Loc Key=MetroFtpClient:Resources:Connect}"
+                            HorizontalAlignment="Right"
+                            Width="50"
+                            Height="50">
+                        <Rectangle Fill="{DynamicResource AccentColorBrush}"
+                                   Width="20"
+                                   Height="20">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{DynamicResource appbar_connect}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:Card>
+    </DataTemplate>
+
+    <DataTemplate x:Key="ConnectionOverviewItemPanelTemplate">
+        <StackPanel Orientation="Horizontal" />
+    </DataTemplate>
+
+</ResourceDictionary>

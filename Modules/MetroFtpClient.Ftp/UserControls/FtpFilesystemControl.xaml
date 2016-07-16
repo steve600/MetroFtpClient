@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="MetroFtpClient.Ftp.UserControls.FtpFilesystemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MetroFtpClient.Ftp.UserControls"
+             xmlns:ftpClient="clr-namespace:MetroFtpClient.Ftp.FtpClient"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:dat="clr-namespace:System.Windows.Data;assembly=PresentationFramework"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="de"
+             lex:ResxLocalizationProvider.DefaultAssembly="MetroFtpClient.Ftp"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+             x:Name="layoutRoot"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <Grid DataContext="{Binding ElementName=layoutRoot}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="3" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Text="{lex:Loc ServerPath}" />
+
+                <TextBox Grid.Column="2"
+                         Text="{Binding Path=SelectedFtpFilesystemFolder.Url.AbsoluteUri, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+            </Grid>
+
+            <!--https://social.msdn.microsoft.com/Forums/vstudio/en-US/681c51ba-d327-47f0-b4cb-7cfb60c51906/treeview-styling-on-root-node?forum=wpf-->
+            
+            <!-- Folder-View -->
+            <!--ItemsSource="{Binding Source={StaticResource FtpSortedFolder}}"-->
+            <!--ContextMenu="{StaticResource FtpExplorerContextMenu}"-->
+            <TreeView x:Name="treeFolderStructure"
+                      Grid.Row="2"
+                      Margin="0,3,0,0"
+                      MouseRightButtonDown="treeFolderStructure_MouseRightButtonDown"
+                      KeyDown="treeFolderStructure_KeyDown"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ItemsSource="{Binding FtpFilesystem.Folders, UpdateSourceTrigger=PropertyChanged}"
+                      ItemTemplate="{StaticResource FtpFilesystemTreeViewDataTemplate}"
+                      ItemContainerStyle="{StaticResource FtpFilesystemTreeViewItemContainerStyle}"
+                      SelectedItemChanged="treeFolderStructure_SelectedItemChanged"                     
+                      ContextMenu="{StaticResource FtpExplorerContextMenu}" />
+        </Grid>
+
+        <!-- Grid-Splitter -->
+        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
+
+        <!-- Detail-View -->
+        <ListView Grid.Row="2"
+                  ItemsSource="{Binding Path=SelectedFtpFilesystemFolder.ChildItems, UpdateSourceTrigger=PropertyChanged}"
+                  ContextMenu="{StaticResource FtpExplorerContextMenu}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="{lex:Loc Filename}" Width="180" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="{lex:Loc Filesize}" Width="85">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding FileSizePretty}" HorizontalAlignment="Right" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{lex:Loc Filetype}" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Style="{StaticResource RectangleFtpItemTypeStyle}" />
+                                    <TextBlock Margin="3,0,0,0" Text="{Binding ItemType}"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{lex:Loc LastModified}" Width="130" DisplayMemberBinding="{Binding ModifiedTime}" />
+                    <GridViewColumn Header="{lex:Loc FilePermissions}" Width="120" DisplayMemberBinding="{Binding Attributes}" />
+                    <GridViewColumn Header="{lex:Loc FileOwner}" Width="120" DisplayMemberBinding="{Binding Owner}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

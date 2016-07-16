@@ -1,0 +1,84 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MetroFtpClient.Ftp.Styling.Templates"
+                    xmlns:lex="http://wpflocalizeextension.codeplex.com">
+
+    <ContextMenu x:Key="FtpExplorerContextMenu">
+        <MenuItem Header="{lex:Loc Download}"
+                  Command="{Binding DownloadCommand}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource download_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{lex:Loc AddFilesToQueue}"
+                  Command="{Binding AddFtpFileToQueueCommand}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource package_add_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="{lex:Loc CreateDirectory}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource folder_add_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{lex:Loc Refresh}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource refresh_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <Separator />
+        <MenuItem Header="{lex:Loc Delete}"
+                  Command="{Binding DeleteFtpFileCommand}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource delete_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{lex:Loc Rename}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource textfield_rename_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{lex:Loc CopyUrlsToClipboard}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource document_copies_32x32}" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{lex:Loc Permissions}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource lock_go_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+    </ContextMenu>
+
+    <ContextMenu x:Key="FtpQueueContextMenu">
+        <MenuItem Header="{lex:Loc Key=MetroFtpClient.Ftp:Resources:StartQueueEntry}"
+                  Command="{Binding StartQueueEntryCommand}"
+                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource control_play_blue_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{lex:Loc Key=MetroFtpClient.Ftp:Resources:StopQueueEntry}"
+                  Command="{Binding StopQueueEntryCommand}"
+                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource control_stop_blue_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{lex:Loc Key=MetroFtpClient.Ftp:Resources:DeleteQueueEntry}"
+                  Command="{Binding DeleteQueueEntryCommand}"
+                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource delete_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="{lex:Loc Key=MetroFtpClient.Ftp:Resources:OpenTargetFolderInExplorer}"
+                  Command="{Binding OpenFolderInExplorerCommand}"
+                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}">
+            <MenuItem.Icon>
+                <Image Source="{StaticResource open_folder_16x16}" />
+            </MenuItem.Icon>
+        </MenuItem>
+    </ContextMenu>
+</ResourceDictionary>

@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="MetroFtpClient.Views.OverviewPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MetroFtpClient.Views"
+             xmlns:inf="clr-namespace:MetroFtpClient.Infrastructure;assembly=MetroFtpClient.Infrastructure"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="de"
+             lex:ResxLocalizationProvider.DefaultAssembly="MetroFtpClient"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <Border Background="{DynamicResource AccentColorBrush}">
+            <TextBlock Style="{StaticResource TextBlockAccentColorSizeL}"
+                       TextAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Foreground="{DynamicResource WhiteColorBrush}"
+                       Text="{lex:Loc WelcomeMessage}" />
+        </Border>
+        <Border Background="{DynamicResource AccentColorBrush4}">
+            <TextBlock Text="{lex:Loc IntroductionMessage}"
+                       Style="{StaticResource TextBlockAccentColorSizeM}"
+                       TextAlignment="Center"
+                       HorizontalAlignment="Center" />
+        </Border>
+
+        <ItemsControl ItemsSource="{Binding Path=Connections, UpdateSourceTrigger=PropertyChanged}"
+                      ItemTemplate="{StaticResource ConnectionCardDataTemplate}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+            <Button Style="{DynamicResource MetroCircleButtonStyle}"                            
+                    Command="{x:Static inf:ApplicationCommands.AddConnectionCommand}"
+                    ToolTip="{lex:Loc AddNewConnection}"
+                    HorizontalAlignment="Right"
+                    Width="50"
+                    Height="50">
+                <Rectangle Fill="{StaticResource AccentColorBrush}"
+                           Width="20"
+                           Height="20">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Visual="{DynamicResource appbar_add}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

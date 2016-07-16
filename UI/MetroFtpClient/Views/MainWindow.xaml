@@ -1,0 +1,69 @@
+﻿<metro:MetroWindow x:Class="MetroFtpClient.Views.MainWindow"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:prism="http://prismlibrary.com/"
+                   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+                   xmlns:behaviors="clr-namespace:MetroFtpClient.Behaviors"
+                   behaviors:RegionPopupBehaviors.CreatePopupRegionWithName="{x:Static infConstants:RegionNames.DialogPopupRegion}"
+                   behaviors:RegionPopupBehaviors.ContainerWindowStyle="{StaticResource RegionPopupWindowStyle}"
+                   xmlns:infConstants="clr-namespace:MetroFtpClient.Infrastructure.Constants;assembly=MetroFtpClient.Infrastructure"
+                   xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+                   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                   xmlns:ta="clr-namespace:MetroFtpClient.Infrastructure.TriggerActions;assembly=MetroFtpClient.Infrastructure"
+                   xmlns:ftpViews="clr-namespace:MetroFtpClient.Ftp.Views;assembly=MetroFtpClient.Ftp"
+                   prism:ViewModelLocator.AutoWireViewModel="True"
+                   GlowBrush="{DynamicResource AccentColorBrush}"
+                   Title="{Binding Title}"
+                   Height="1024"
+                   Width="1280">
+
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding ShowAddOrUpdateConnectionPopupRequest, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+            <!-- This PopupWindowAction has a custom view defined. When this action is executed the view will be shown inside a new window -->
+            <!-- Take into account that the view is created only once and will be reused each time the action is executed -->
+            <ta:MetroPopupWindowAction IsModal="True" CenterOverAssociatedObject="True" WindowStyle="{StaticResource RegionPopupWindowStyle}">
+                <ta:MetroPopupWindowAction.WindowContent>
+                    <ftpViews:AddConnection />
+                </ta:MetroPopupWindowAction.WindowContent>
+            </ta:MetroPopupWindowAction>
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+
+    <!-- LeftWindow Commands -->
+    <metro:MetroWindow.LeftWindowCommands>
+        <metro:WindowCommands x:Name="leftWindowCommandsRegion" />
+    </metro:MetroWindow.LeftWindowCommands>
+
+    <!-- RightWindow Commands -->
+    <metro:MetroWindow.RightWindowCommands>
+        <metro:WindowCommands x:Name="rightWindowCommandsRegion" />
+    </metro:MetroWindow.RightWindowCommands>
+
+    <!-- Flyouts -->
+    <metro:MetroWindow.Flyouts>
+        <metro:FlyoutsControl x:Name="flyoutsRegion" />
+    </metro:MetroWindow.Flyouts>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <dragablz:TabablzControl x:Name="mainTabControl"
+                                     Grid.Row="0"
+                                     prism:RegionManager.RegionName="{x:Static infConstants:RegionNames.MainRegion}">
+            <dragablz:TabablzControl.InterTabController>
+                <dragablz:InterTabController InterTabClient="{Binding InterTabClient}" />
+            </dragablz:TabablzControl.InterTabController>
+        </dragablz:TabablzControl>
+
+        <!-- StatusBar -->
+        <StatusBar Grid.Row="1">
+            <StatusBarItem Content="{Binding Title}" />
+            <Separator Style="{StaticResource MetroStatusBarSeparator}" />
+            <StatusBarItem Content="{Binding Path=StatusBarMessage, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+        </StatusBar>
+    </Grid>
+</metro:MetroWindow>
