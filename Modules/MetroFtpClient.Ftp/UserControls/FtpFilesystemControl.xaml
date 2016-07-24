@@ -96,8 +96,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="{lex:Loc LastModified}" Width="130" DisplayMemberBinding="{Binding ModifiedTime}" />
-                    <GridViewColumn Header="{lex:Loc FilePermissions}" Width="120" DisplayMemberBinding="{Binding Attributes}" />
-                    <GridViewColumn Header="{lex:Loc FileOwner}" Width="120" DisplayMemberBinding="{Binding Owner}" />
+                    <GridViewColumn Header="{lex:Loc FilePermissions}" Width="120" DisplayMemberBinding="{Binding Attributes}" />                    
                 </GridView>
             </ListView.View>
         </ListView>

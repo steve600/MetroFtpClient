@@ -1,102 +1,64 @@
 ﻿using MetroFtpClient.Ftp.Interfaces;
 using System;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace MetroFtpClient.Ftp.FtpClient
 {
     /// <summary>
+    /// Class for parsing DOS/Windows file and directory informations using the FTP LIST method
     /// 12-13-10  12:41PM       <DIR>          Folder A
+    /// Parts are taken from: https://github.com/bentonstark/starksoft-aspen
     /// </summary>
-    /// <param name="recordString"></param>
-    /// <returns></returns>
     public class WindowsFtpFilesystemParser : IFtpFilesystemParser
     {
+        private Regex dosName = new System.Text.RegularExpressions.Regex(@"((?<=<DIR>\s+).+)|((?<=\d\d:\d\d\s+).+)|((?<=(\d\d:\d\d(AM|PM|am|pm)\s+\d+\s+)).+)", RegexOptions.Compiled);
+        private Regex dosDate = new System.Text.RegularExpressions.Regex(@"(\d\d-\d\d-\d\d)", RegexOptions.Compiled);
+        private Regex dosTime = new System.Text.RegularExpressions.Regex(@"(\d\d:\d\d\s*(AM|PM|am|pm))|(\d\d:\d\d)", RegexOptions.Compiled);
+        private Regex dosSize = new System.Text.RegularExpressions.Regex(@"((?<=(\d\d:\d\d\s*(AM|PM|am|pm)\s*))\d+)|(\d+(?=\s+\d\d-\d\d-\d\d\s+))", RegexOptions.Compiled);
+        private Regex dosDir = new System.Text.RegularExpressions.Regex(@"<DIR>|\sDIR\s", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Parse directory/file information
+        /// </summary>
+        /// <param name="baseUrl"></param>
+        /// <param name="recordString"></param>
+        /// <returns></returns>
         public FtpFile Parse(Uri baseUrl, string recordString)
         {
-            //FtpFile ftpFile = new FtpFile();
+            string name = dosName.Match(recordString).ToString().Trim();
 
-            //ftpFile.OriginalRecordString = recordString.Trim();
+            // if the name has no length the simply stop processing and return null.
+            if (name.Trim().Length == 0)
+                return null;
 
-            //// The segments is like "12-13-10",  "", "12:41PM", "", "","", "",
-            //// "", "", "<DIR>", "", "", "", "", "", "", "", "", "", "Folder", "A".
-            //string[] segments = ftpFile.OriginalRecordString.Split(' ');
+            string date = dosDate.Match(recordString).ToString();
+            string time = dosTime.Match(recordString).ToString();
+            string size = dosSize.Match(recordString).ToString();
+            string dir = dosDir.Match(recordString).ToString().Trim();
 
-            //int index = 0;
+            // put togther the date/time
+            DateTime dateTime = DateTime.MinValue;
+            DateTime.TryParse(String.Format(CultureInfo.InvariantCulture, "{0} {1}", date, time), out dateTime);
 
-            //// The date segment is like "12-13-10" instead of "12-13-2010" if Four-digit years
-            //// is not checked in IIS.
-            //string dateSegment = segments[index];
-            //string[] dateSegments = dateSegment.Split(new char[] { '-' },
-            //    StringSplitOptions.RemoveEmptyEntries);
+            // parse the file size
+            ulong sizeLng = 0;
+            ulong.TryParse(size, out sizeLng);
 
-            //int month = int.Parse(dateSegments[0]);
-            //int day = int.Parse(dateSegments[1]);
-            //int year = int.Parse(dateSegments[2]);
+            // determine the file item itemType
+            FtpItemType itemTypeObj;
+            if (dir.Length > 0)
+                itemTypeObj = FtpItemType.Directory;
+            else
+                itemTypeObj = FtpItemType.File;
 
-            //// If year >=50 and year <100, then  it means the year 19**
-            //if (year >= 50 && year < 100)
-            //{
-            //    year += 1900;
-            //}
+            //if (name == ".")
+            //    itemTypeObj = FtpItemType.;
+            //if (name == "..")
+            //    itemTypeObj = FtpItemType.ParentDirectory;
 
-            //// If year <50, then it means the year 20**
-            //else if (year < 50)
-            //{
-            //    year += 2000;
-            //}
+            return new FtpFile(recordString, name, dateTime, sizeLng, String.Empty, String.Empty, itemTypeObj, baseUrl);
 
-            //// Skip the empty segments.
-            //while (segments[++index] == string.Empty) { }
-
-            //// The time segment.
-            //string timesegment = segments[index];
-
-            //ftpFile.ModifiedTime = DateTime.Parse(string.Format("{0}-{1}-{2} {3}",
-            //    year, month, day, timesegment));
-
-            //// Skip the empty segments.
-            //while (segments[++index] == string.Empty) { }
-
-            //// The fileSize or directory segment.
-            //// If this segment is "<DIR>", then it means a directory, else it means the
-            //// file fileSize.
-            //string sizeOrDirSegment = segments[index];
-
-            //ftpFile.IsDirectory = sizeOrDirSegment.Equals("<DIR>",
-            //    StringComparison.OrdinalIgnoreCase);
-
-            //// If this ftpFile is a file, then the fileSize is larger than 0.
-            //if (!ftpFile.IsDirectory)
-            //{
-            //    ftpFile.FileSize = ulong.Parse(sizeOrDirSegment);
-            //}
-
-            //// Skip the empty segments.
-            //while (segments[++index] == string.Empty) { }
-
-            //// Calculate the index of the file name part in the original string.
-            //int filenameIndex = 0;
-
-            //for (int i = 0; i < index; i++)
-            //{
-            //    // "" represents ' ' in the original string.
-            //    if (segments[i] == string.Empty)
-            //    {
-            //        filenameIndex += 1;
-            //    }
-            //    else
-            //    {
-            //        filenameIndex += segments[i].Length + 1;
-            //    }
-            //}
-            //// The file name may include many segments because the name can contain ' '.
-            //ftpFile.Name = ftpFile.OriginalRecordString.Substring(filenameIndex).Trim();
-
-            //// Add "/" to the url if it is a directory
-            //ftpFile.Url = new Uri(baseUrl, ftpFile.Name + (ftpFile.IsDirectory ? "/" : string.Empty));
-
-            //return ftpFile;
-
-            return null;
         }
     }
 }

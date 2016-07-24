@@ -1,105 +1,115 @@
 ﻿using MetroFtpClient.Ftp.Interfaces;
 using System;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace MetroFtpClient.Ftp.FtpClient
 {
     /// <summary>
-    /// The recordString is like
-    /// Directory: drwxrwxrwx   1 owner    group               0 Dec 13 11:25 Folder A
-    /// File:      -rwxrwxrwx   1 owner    group               1024 Dec 13 11:25 File B
-    /// NOTE: The date segment does not contains year.
+    /// Class for parsing UNIX file and directory informations using the FTP LIST method
+    /// Parts are taken from: https://github.com/bentonstark/starksoft-aspen
     /// </summary>
     public class UnixFtpFilesystemParser : IFtpFilesystemParser
     {
+        // unix regex expressions
+        private Regex isUnix = new Regex(@"(d|l|-|b|c|p|s)(r|w|x|-|t|s){9}", RegexOptions.Compiled);
+        private Regex unixAttribs = new Regex(@"(d|l|-|b|c|p|s)(r|w|x|-|t|s){9}", RegexOptions.Compiled);
+        private Regex unixMonth = new Regex(@"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|mrt|mei|okt)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private Regex unixDay = new Regex(@"(?<=(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|mrt|mei|okt)\s+)\d+", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private Regex unixYear = new Regex(@"(?<=(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|mrt|mei|okt)\s+\d+\s+)(19|20)\d\d", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private Regex unixTime = new Regex(@"(?<=(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|mrt|mei|okt)\s+\d+\s+)\d+:\d\d", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private Regex unixSize = new Regex(@"\d+(?=(\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|mrt|mei|okt)))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private Regex unixName = new Regex(@"((?<=((Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|mrt|mei|okt)\s+\d+\s+(19|20)\d\d\s+)|((Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|mrt|mei|okt)\s+\d+\s+\d+:\d\d\s+)).+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private Regex unixSymbLink = new Regex(@"(?<=\s+->\s+).+", RegexOptions.Compiled);
+        private Regex unixType = new Regex(@"(d|l|-|b|c|p|s)(?=(r|w|x|-|t|s){9})", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Parse directory information
+        /// </summary>
+        /// <param name="baseUrl">The base URL</param>
+        /// <param name="recordString">The record string.</param>
+        /// <returns></returns>
         public FtpFile Parse(Uri baseUrl, string recordString)
         {
-            //    FtpFile ftpFile = new FtpFile();
+            // Instantiate the regular expression object.
+            string attribs = unixAttribs.Match(recordString).ToString();
+            string month = unixMonth.Match(recordString).ToString();
+            string day = unixDay.Match(recordString).ToString();
+            string year = unixYear.Match(recordString).ToString();
+            string time = unixTime.Match(recordString).ToString();
+            string size = unixSize.Match(recordString).ToString();
+            string name = unixName.Match(recordString).ToString().Trim();
+            string symbLink = "";
 
-            //    ftpFile.OriginalRecordString = recordString.Trim();
+            // ignore the microsoft 'etc' file that IIS uses for WWW users
+            if (name == "~ftpsvc~.ckm")
+                return null;
 
-            //    // The segments is like "drwxrwxrwx", "",  "", "1", "owner", "", "", "",
-            //    // "group", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",
-            //    // "0", "Dec", "13", "11:25", "Folder", "A".
-            //    string[] segments = ftpFile.OriginalRecordString.Split(' ');
+            //  if we find a symbolic link then extract the symbolic link first and then
+            //  extract the file name portion
+            if (unixSymbLink.IsMatch(name))
+            {
+                symbLink = unixSymbLink.Match(name).ToString();
+                name = name.Substring(0, name.IndexOf("->")).Trim();
+            }
 
-            //    int index = 0;
+            string itemType = unixType.Match(recordString).ToString();
 
-            //    // The permission segment is like "drwxrwxrwx".
-            //    string permissionsegment = segments[index];
 
-            //    // If the property start with 'd', then it means a directory.
-            //    ftpFile.IsDirectory = permissionsegment[0] == 'd';
+            //  if the current year is not given in unix then we need to figure it out.
+            //  basically, if a date is within the past 6 months unix will show the 
+            //  time instead of the year
+            if (year.Length == 0)
+            {
+                int curMonth = DateTime.Today.Month;
+                int curYear = DateTime.Today.Year;
 
-            //    // Skip the empty segments.
-            //    while (segments[++index] == string.Empty) { }
+                DateTime result;
+                if (DateTime.TryParse(String.Format(CultureInfo.InvariantCulture, "1-{0}-2007", month), out result))
+                {
+                    if ((curMonth - result.Month) < 0)
+                        year = Convert.ToString(curYear - 1, CultureInfo.InvariantCulture);
+                    else
+                        year = curYear.ToString(CultureInfo.InvariantCulture);
+                }
+            }
 
-            //    // Skip the directories segment.
+            DateTime dateObj;
+            DateTime.TryParse(String.Format(CultureInfo.InvariantCulture, "{0}-{1}-{2} {3}", day, month, year, time), out dateObj);
 
-            //    // Skip the empty segments.
-            //    while (segments[++index] == string.Empty) { }
+            ulong sizeLng = 0;
+            ulong.TryParse(size, out sizeLng);
 
-            //    // Skip the owner segment.
+            FtpItemType itemTypeObj = FtpItemType.Unknown;
+            switch (itemType.ToLower(CultureInfo.InvariantCulture))
+            {
+                case "l":
+                    itemTypeObj = FtpItemType.SymbolicLink;
+                    break;
+                case "d":
+                    itemTypeObj = FtpItemType.Directory;
+                    break;
+                case "-":
+                    itemTypeObj = FtpItemType.File;
+                    break;
+                case "b":
+                    itemTypeObj = FtpItemType.BlockSpecialFile;
+                    break;
+                case "c":
+                    itemTypeObj = FtpItemType.CharacterSpecialFile;
+                    break;
+                case "p":
+                    itemTypeObj = FtpItemType.NamedSocket;
+                    break;
+                case "s":
+                    itemTypeObj = FtpItemType.DomainSocket;
+                    break;
+            }
 
-            //    // Skip the empty segments.
-            //    while (segments[++index] == string.Empty) { }
-
-            //    // Skip the group segment.
-
-            //    // Skip the empty segments.
-            //    while (segments[++index] == string.Empty) { }
-
-            //    // If this ftpFile is a file, then the fileSize is larger than 0.
-            //    ftpFile.FileSize = ulong.Parse(segments[index]);
-
-            //    // Skip the empty segments.
-            //    while (segments[++index] == string.Empty) { }
-
-            //    // The month segment.
-            //    string monthsegment = segments[index];
-
-            //    // Skip the empty segments.
-            //    while (segments[++index] == string.Empty) { }
-
-            //    // The day segment.
-            //    string daysegment = segments[index];
-
-            //    // Skip the empty segments.
-            //    while (segments[++index] == string.Empty) { }
-
-            //    // The time segment.
-            //    string timesegment = segments[index];
-
-            //    ftpFile.ModifiedTime = DateTime.Parse(string.Format("{0} {1} {2} ",
-            //        timesegment, monthsegment, daysegment));
-
-            //    // Skip the empty segments.
-            //    while (segments[++index] == string.Empty) { }
-
-            //    // Calculate the index of the file name part in the original string.
-            //    int filenameIndex = 0;
-
-            //    for (int i = 0; i < index; i++)
-            //    {
-            //        // "" represents ' ' in the original string.
-            //        if (segments[i] == string.Empty)
-            //        {
-            //            filenameIndex += 1;
-            //        }
-            //        else
-            //        {
-            //            filenameIndex += segments[i].Length + 1;
-            //        }
-            //    }
-
-            //    // The file name may include many segments because the name can contain ' '.
-            //    ftpFile.Name = ftpFile.OriginalRecordString.Substring(filenameIndex).Trim();
-
-            //    // Add "/" to the url if it is a directory
-            //    ftpFile.Url = new Uri(baseUrl, ftpFile.Name + (ftpFile.IsDirectory ? "/" : string.Empty));
-
-            //    return ftpFile;
-
-            return null;
+            if (itemTypeObj == FtpItemType.Unknown || name.Trim().Length == 0)
+                return null;
+            else
+                return new FtpFile(recordString, name, dateObj, sizeLng, symbLink, attribs, itemTypeObj, new Uri(baseUrl, name + ((itemTypeObj == FtpItemType.Directory) ? "/" : string.Empty)));
         }
     }
 }

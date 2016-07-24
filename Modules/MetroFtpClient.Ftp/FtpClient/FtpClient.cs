@@ -303,12 +303,12 @@ namespace MetroFtpClient.Ftp.FtpClient
         }
 
         /// <summary>
-        /// Download file asyn
+        /// Download file
         /// </summary>
         /// <param name="url">The url</param>
         /// <param name="targetPath">The target path</param>
         /// <param name="progress">Progess changed handler</param>
-        /// <param name="token">The cancellation tocken.</param>
+        /// <param name="token">The cancellation token.</param>
         /// <returns></returns>
         public void DownloadFile(Uri url, string localFile, IProgress<DownloadProgess> progress, CancellationToken cancelToken)
         {
@@ -425,7 +425,7 @@ namespace MetroFtpClient.Ftp.FtpClient
         }
 
         /// <summary>
-        /// Download file asyn
+        /// Download file async
         /// </summary>
         /// <param name="url">The url</param>
         /// <param name="targetPath">The target path</param>

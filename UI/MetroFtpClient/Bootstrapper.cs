@@ -87,6 +87,10 @@ namespace MetroFtpClient
             Container.RegisterInstance<IConnectionManager>(GlobalConstants.ConnectionManager, Container.Resolve<ConnectionManager>(), new ContainerControlledLifetimeManager());
         }
 
+        /// <summary>
+        /// Configure region adapter mappings
+        /// </summary>
+        /// <returns></returns>
         protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
         {
             RegionAdapterMappings mappings = base.ConfigureRegionAdapterMappings();

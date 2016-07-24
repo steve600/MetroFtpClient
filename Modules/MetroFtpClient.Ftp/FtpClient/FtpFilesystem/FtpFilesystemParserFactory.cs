@@ -7,14 +7,14 @@ namespace MetroFtpClient.Ftp.FtpClient
     {
         public static IFtpFilesystemParser Get(string recordString)
         {
-            Regex regex = new System.Text.RegularExpressions.Regex(@"^([d-]|[l-]|[c-])([r-][w-][x-]){3}$");
+            Regex unixFile = new System.Text.RegularExpressions.Regex(@"^([d-]|[l-]|[c-])([r-][w-][x-]){3}$");
 
             string header = recordString.Substring(0, 10);
 
             // If the style is UNIX, then the header is like "drwxrwxrwx".
-            if (regex.IsMatch(header))
+            if (unixFile.IsMatch(header))
             {
-                return new UnixFtpFileSystemParserRegex();
+                return new UnixFtpFilesystemParser();
             }
             else
             {

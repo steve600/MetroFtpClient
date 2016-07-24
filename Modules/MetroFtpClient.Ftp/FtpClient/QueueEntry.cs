@@ -3,8 +3,6 @@ using MetroFtpClient.Ftp.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
 using Prism.Mvvm;
 using System;
 using System.Linq;
@@ -102,7 +100,7 @@ namespace MetroFtpClient.Ftp.FtpClient
             {
                 IsZoomEnabled = false,
                 Position = AxisPosition.Bottom,
-                IsAxisVisible = false
+                IsVisible = false
             });
 
             // Create line series to visualize the values
@@ -149,7 +147,7 @@ namespace MetroFtpClient.Ftp.FtpClient
 
             time = time.AddSeconds(1);
 
-            this.NetworkSpeedPlot.InvalidatePlot(true);
+            this.NetworkSpeedPlot.UpdateData();
         }
 
         private string localFile;

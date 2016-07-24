@@ -9,28 +9,41 @@ using System.Threading.Tasks;
 
 namespace MetroFtpClient.Ftp.FtpClient
 {
+    /// <summary>
+    /// Class that represents a download task
+    /// </summary>
+    public class Download
+    {
+        public readonly TaskCompletionSource<object> TaskSource;
+        public readonly Action Action;
+        public readonly CancellationToken? CancelToken;
+        public readonly IQueueEntry QueueEntry;
+
+        /// <summary>
+        /// CTOR 
+        /// </summary>
+        /// <param name="taskSource">The task completion source.</param>
+        /// <param name="queueEntry">The queue entry.</param>
+        /// <param name="action">The download action.</param>
+        /// <param name="cancelToken">The cancellation token</param>
+        public Download(TaskCompletionSource<object> taskSource, IQueueEntry queueEntry, Action action, CancellationToken? cancelToken)
+        {
+            TaskSource = taskSource;
+            QueueEntry = queueEntry;
+            Action = action;
+            CancelToken = cancelToken;
+        }
+    }
+
+    /// <summary>
+    /// Download queue
+    /// </summary>
     public class DownloadQueue : IDisposable
     {
-        /// <summary>
-        /// Class that represents a download task
-        /// </summary>
-        class Download
-        {
-            public readonly TaskCompletionSource<object> TaskSource;
-            public readonly Action Action;
-            public readonly CancellationToken? CancelToken;
-            public readonly IQueueEntry QueueEntry;
-
-            public Download(TaskCompletionSource<object> taskSource, IQueueEntry queueEntry, Action action, CancellationToken? cancelToken)
-            {
-                TaskSource = taskSource;
-                QueueEntry = queueEntry;
-                Action = action;
-                CancelToken = cancelToken;
-            }
-        }
-
-        BlockingCollection<Download> downloads = new BlockingCollection<Download>();
+        // BlockingCollection with downloads
+        private BlockingCollection<Download> downloads = new BlockingCollection<Download>();
+        // List with the running tasks
+        private readonly IList<Task> runningsTasks = null;
 
         /// <summary>
         /// CTOR for a download queue
@@ -38,15 +51,31 @@ namespace MetroFtpClient.Ftp.FtpClient
         /// <param name="workerCount"></param>
         public DownloadQueue(int workerCount)
         {
-            // Create and start a separate Task for each consumer:
+            runningsTasks = new List<Task>();
+
+            // Create and start a separate Task for each consumer
             for (int i = 0; i < workerCount; i++)
             {
-                Task.Factory.StartNew(Consume);
+                var t = Task.Factory.StartNew(Consume);
+
+                runningsTasks.Add(t);
             }
         }
 
-        public void Dispose() { downloads.CompleteAdding(); }
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            downloads.CompleteAdding();
+        }
 
+        /// <summary>
+        /// Enqueu a download task
+        /// </summary>
+        /// <param name="action">The download action.</param>
+        /// <param name="queueEntry">The queue entry.</param>
+        /// <returns></returns>
         public Task EnqueueTask(Action action, IQueueEntry queueEntry)
         {
             return EnqueueTask(action, queueEntry, null);
@@ -81,7 +110,10 @@ namespace MetroFtpClient.Ftp.FtpClient
             }
         }
 
-        void Consume()
+        /// <summary>
+        /// Consume
+        /// </summary>
+        private void Consume()
         {
             foreach (Download download in downloads.GetConsumingEnumerable())
             {
@@ -95,6 +127,7 @@ namespace MetroFtpClient.Ftp.FtpClient
                 {
                     try
                     {
+                        // Start download
                         download.Action();
                         download.TaskSource.SetResult(null);   // Indicate completion
                     }

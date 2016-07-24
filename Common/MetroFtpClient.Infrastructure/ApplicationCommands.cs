@@ -23,7 +23,7 @@ namespace MetroFtpClient.Infrastructure
         /// </summary>
         private static void ShowOnGitHub()
         {
-            System.Diagnostics.Process.Start("https://github.com/steve600/VersatileMediaManager");
+            System.Diagnostics.Process.Start("https://github.com/steve600/MetroFtpClient");
         }
 
         /// <summary>

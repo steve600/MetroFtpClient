@@ -75,7 +75,7 @@
         </MenuItem>
         <MenuItem Header="{lex:Loc Key=MetroFtpClient.Ftp:Resources:OpenTargetFolderInExplorer}"
                   Command="{Binding OpenFolderInExplorerCommand}"
-                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}">
+                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}">
             <MenuItem.Icon>
                 <Image Source="{StaticResource open_folder_16x16}" />
             </MenuItem.Icon>

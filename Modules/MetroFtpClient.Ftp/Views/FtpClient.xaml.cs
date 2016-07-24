@@ -1,6 +1,8 @@
 ﻿using MetroFtpClient.Ftp.ViewModels;
 using Microsoft.WindowsAPICodePack.Shell;
+using Prism.Commands;
 using System;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -44,6 +46,16 @@ namespace MetroFtpClient.Ftp.Views
         private void FtpClient_Loaded(object sender, RoutedEventArgs e)
         {
             this.localFileExplorer.ExplorerBrowserControl.Navigate((ShellObject)KnownFolders.Downloads);
+        }
+
+        private void ListView_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var vm = this.DataContext as FtpClientViewModel;
+
+            if (vm != null)
+            {
+                ((DelegateCommand<IList>)vm.OpenFolderInExplorerCommand).RaiseCanExecuteChanged();
+            }
         }
     }
 }

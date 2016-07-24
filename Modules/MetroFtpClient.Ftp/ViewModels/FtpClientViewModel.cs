@@ -5,12 +5,11 @@ using MetroFtpClient.Ftp.Interfaces;
 using Microsoft.Practices.Unity;
 using Microsoft.WindowsAPICodePack.Shell;
 using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -19,6 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Linq;
 
 namespace MetroFtpClient.Ftp.ViewModels
 {
@@ -56,10 +56,10 @@ namespace MetroFtpClient.Ftp.ViewModels
             this.StopQueueCommand = new DelegateCommand(this.StopQueue, this.StopQueueCanExecute);
             this.DeleteFtpFileCommand = DelegateCommand.FromAsyncHandler(this.DeleteFtpFile, this.DeleteFtpFileCanExecute);
             this.AddFtpFileToQueueCommand = new DelegateCommand(this.AddFtpFileToQueue, this.AddFtpFileToQueueCanExecute);
-            this.OpenFolderInExplorerCommand = new DelegateCommand<IQueueEntry>(this.OpenFolderInExplorer);
-            this.StartQueueEntryCommand = new DelegateCommand<object>(this.StartQueueEntry, this.StartQueueEntryCanExecute);
-            this.StopQueueEntryCommand = new DelegateCommand<object>(this.StopQueueEntry, this.StopQueueEntryCanExecute);
-            this.DeleteQueueEntryCommand = new DelegateCommand<object>(this.DeleteQueueEntry, this.DeleteQueueEntryCanExecute);
+            this.OpenFolderInExplorerCommand = new DelegateCommand<IList>(this.OpenFolderInExplorer, this.OpenFolderInExplorerCanExecute);
+            this.StartQueueEntryCommand = new DelegateCommand<IList>(this.StartQueueEntry, this.StartQueueEntryCanExecute);
+            this.StopQueueEntryCommand = new DelegateCommand<IList>(this.StopQueueEntry, this.StopQueueEntryCanExecute);
+            this.DeleteQueueEntryCommand = new DelegateCommand<IList>(this.DeleteQueueEntry, this.DeleteQueueEntryCanExecute);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace MetroFtpClient.Ftp.ViewModels
         /// <param name="e"></param>
         private void FtpConnection_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            switch(e.PropertyName)
+            switch (e.PropertyName)
             {
                 case nameof(ftpConnection.FtpLog):
                     this.OnPropertyChanged(() => this.FtpLog);
@@ -111,24 +111,14 @@ namespace MetroFtpClient.Ftp.ViewModels
         /// </summary>
         /// <param name="queueEntry">The qeue entry</param>
         /// <param name="method">Method which should be invoked</param>
-        private void QueueManagement(object queueEntry, Action<IQueueEntry> method)
+        private void QueueManagement(IList queueEntries, Action<IQueueEntry> method)
         {
-            if (queueEntry != null)
+            if (queueEntries != null)
             {
-                if (queueEntry is System.Collections.IList)
+                foreach (var qe in queueEntries)
                 {
-                    System.Collections.IList queueEntries = (System.Collections.IList)queueEntry;
-
-                    foreach (var qe in queueEntries)
-                    {
-                        method(qe as IQueueEntry);
-                    }
-
-                    return;
+                    method(qe as IQueueEntry);
                 }
-
-                if (queueEntry is IQueueEntry)
-                    method(queueEntry as IQueueEntry);
             }
         }
 
@@ -191,7 +181,7 @@ namespace MetroFtpClient.Ftp.ViewModels
         /// Execute handler for AddFtpFileToQueueCommand <see cref="AddFtpFileToQueueCommand"/>
         /// </summary>
         private void AddFtpFileToQueue()
-        {            
+        {
             this.ftpConnection.AddFtpFileToQueue(this.SelectedFtpFilesystemFolder, this.SelectedDownloadDirectory, Direction.Download);
         }
 
@@ -230,29 +220,19 @@ namespace MetroFtpClient.Ftp.ViewModels
         /// <summary>
         /// Start a queue entry can execute handler
         /// </summary>
-        /// <param name="queueEntry">The queue entry.</param>
-        private bool StartQueueEntryCanExecute(object queueEntry)
+        /// <param name="queueEntries">The queue entries.</param>
+        private bool StartQueueEntryCanExecute(IList queueEntries)
         {
-            return queueEntry != null;
-            //if (queueEntry != null)
-            //{
-            //    return queueEntry.Status == DownloadStatus.Cancelled ||
-            //           queueEntry.Status == DownloadStatus.Failed ||
-            //           queueEntry.Status == DownloadStatus.Idle ||
-            //           queueEntry.Status == DownloadStatus.Paused ||
-            //           queueEntry.Status == DownloadStatus.Stopped;
-            //}
-
-            //return false;
+            return queueEntries != null && queueEntries.Count >= 1;            
         }
 
         /// <summary>
         /// Start a queue entry
         /// </summary>
-        /// <param name="queueEntry">The queue entry.</param>
-        private void StartQueueEntry(object queueEntry)
+        /// <param name="queueEntries">The queue entries.</param>
+        private void StartQueueEntry(IList queueEntries)
         {
-            this.QueueManagement(queueEntry, this.ftpConnection.AddEntryToDownloadQueue);
+            this.QueueManagement(queueEntries, this.ftpConnection.AddEntryToDownloadQueue);
         }
 
         public ICommand StopQueueEntryCommand { get; private set; }
@@ -260,26 +240,29 @@ namespace MetroFtpClient.Ftp.ViewModels
         /// <summary>
         /// Stop a queue entry
         /// </summary>
-        /// <param name="queueEntry">The queue entry.</param>
-        private void StopQueueEntry(object queueEntry)
+        /// <param name="queueEntries">The queue entries.</param>
+        private void StopQueueEntry(IList queueEntries)
         {
-            this.QueueManagement(queueEntry, this.ftpConnection.StopQueueEntry);
+            this.QueueManagement(queueEntries, this.ftpConnection.StopQueueEntry);
         }
 
         /// <summary>
         /// Stop a queue entry can execute handler
         /// </summary>
-        /// <param name="queueEntry">The queue entry.</param>
-        private bool StopQueueEntryCanExecute(object queueEntry)
+        /// <param name="queueEntries">The queue entries.</param>
+        private bool StopQueueEntryCanExecute(IList queueEntries)
         {
-            return queueEntry != null;
-            //if (queueEntry != null)
-            //{
-            //    return queueEntry.Status == DownloadStatus.Transferring ||
-            //           queueEntry.Status == DownloadStatus.Waiting;
-            //}
+            if (queueEntries != null)
+            {
+                var result = queueEntries.OfType<IQueueEntry>().Where(q => q.Status != DownloadStatus.Transferring || q.Status != DownloadStatus.Waiting);
 
-            //return false;
+                if (result.Count() > 0)
+                    return false;
+                else
+                    return true;
+            }
+            
+            return false;
         }
 
         public ICommand DeleteQueueEntryCommand { get; private set; }
@@ -287,18 +270,18 @@ namespace MetroFtpClient.Ftp.ViewModels
         /// <summary>
         /// Delete queue entry command
         /// </summary>
-        /// <param name="queueEntry">The queue entry.</param>
-        private void DeleteQueueEntry(object queueEntry)
+        /// <param name="queueEntries">The queue entries.</param>
+        private void DeleteQueueEntry(IList queueEntries)
         {
-            this.QueueManagement(queueEntry, this.ftpConnection.DeleteQueueEntry);
+            this.QueueManagement(queueEntries, this.ftpConnection.DeleteQueueEntry);
         }
 
         /// <summary>
         /// Delete qeue entry command can execute handler
         /// </summary>
-        /// <param name="queueEntry">The queue entry.</param>
+        /// <param name="queueEntries">The queue entries.</param>
         /// <returns></returns>
-        private bool DeleteQueueEntryCanExecute(object queueEntry)
+        private bool DeleteQueueEntryCanExecute(IList queueEntries)
         {
             return true;
         }
@@ -308,14 +291,20 @@ namespace MetroFtpClient.Ftp.ViewModels
         /// <summary>
         /// OpenFolderInExplorerCommand execute handler
         /// </summary>
-        /// <param name="queueEntry"></param>
-        private void OpenFolderInExplorer(IQueueEntry queueEntry)
+        /// <param name="queueEntries">The queue entries.</param>
+        private bool OpenFolderInExplorerCanExecute(IList queueEntries)
         {
-            if (queueEntry != null)
-            {
-                var path = System.IO.Path.GetDirectoryName(queueEntry.LocalFile);
-                Process.Start(path);
-            }
+            return queueEntries.Count == 1;
+        }
+
+        /// <summary>
+        /// OpenFolderInExplorerCommand execute handler
+        /// </summary>
+        /// <param name="queueEntries">The queue entries.</param>
+        private void OpenFolderInExplorer(IList queueEntries)
+        {
+            var path = System.IO.Path.GetDirectoryName(((IQueueEntry)queueEntries[0]).LocalFile);
+            Process.Start(path);
         }
 
         #endregion Commands

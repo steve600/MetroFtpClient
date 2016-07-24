@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MetroFtpClient.Ftp.FtpClient.FtpFile">
+    <Position X="2.25" Y="0.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>QgBBAUIQAMAAEABMAABADAQQgIAMEIAACABCAAAAQ4E=</HashCode>
+      <FileName>FtpClient\FtpFilesystem\FtpFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetroFtpClient.Ftp.FtpClient.FtpFilesystemParserFactory">
+    <Position X="5.75" Y="2" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FtpClient\FtpFilesystem\FtpFilesystemParserFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MetroFtpClient.Ftp.FtpClient.UnixFtpFilesystemParser">
+    <Position X="5" Y="4" Width="2" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAABAAAAKAAAAAAACARAAACAgAAAAAAEAAAA=</HashCode>
+      <FileName>FtpClient\FtpFilesystem\UnixFtpFilesystemParser.cs</FileName>
+      <NewMemberFileName>FtpClient\FtpFilesystem\UnixFtpFileSystemParser.cs</NewMemberFileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MetroFtpClient.Ftp.FtpClient.WindowsFtpFilesystemParser">
+    <Position X="7.5" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FtpClient\FtpFilesystem\WindowsFtpFilesystemParser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="MetroFtpClient.Ftp.Interfaces.IFtpFilesystemParser">
+    <Position X="5.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IFtpFilesystemParser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="MetroFtpClient.Ftp.FtpClient.FtpItemType">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAgAAAAAAAAAAAAAAAgAAEgAAAIAAAAAAAQBA=</HashCode>
+      <FileName>FtpClient\FtpFilesystem\FtpFile.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

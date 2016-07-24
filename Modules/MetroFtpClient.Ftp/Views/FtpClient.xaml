@@ -78,7 +78,8 @@
                         <ListView Grid.Row="0" 
                                   ItemsSource="{Binding Path=QueuePending, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedItem="{Binding Path=SelectedQueueEntry, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                  ContextMenu="{StaticResource FtpQueueContextMenu}">
+                                  ContextMenu="{StaticResource FtpQueueContextMenu}"
+                                  ContextMenuOpening="ListView_ContextMenuOpening">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="{lex:Loc DownloadDirection}" Width="30">
@@ -200,7 +201,7 @@
                 </RichTextBox>
 
                 <!-- Chart -->
-                <oxyplot:PlotView Grid.Row="2" Model="{Binding Path=SelectedQueueEntry.NetworkSpeedPlot, UpdateSourceTrigger=PropertyChanged}" />
+                <oxyplot:Plot Grid.Row="2" Model="{Binding Path=SelectedQueueEntry.NetworkSpeedPlot, UpdateSourceTrigger=PropertyChanged}" />
             </Grid>
         </Grid>
     </Grid>
